@@ -17,31 +17,34 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable
+        = [
+            'name',
+            'email',
+            'password',
+        ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden
+        = [
+            'password',
+            'remember_token',
+        ];
 
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    protected $casts
+        = [
+            'email_verified_at' => 'datetime',
+            'password'          => 'hashed',
+        ];
 
     /**
      * The comments that belong to the user.
@@ -65,6 +68,30 @@ class User extends Authenticatable
     public function watched()
     {
         return $this->belongsToMany(Lesson::class)->wherePivot('watched', true);
+    }
+
+    /**
+     * The achievements that a user has unlocked.
+     */
+    public function achievements()
+    {
+        return $this->belongsToMany(Achievement::class);
+    }
+
+    /**
+     * The badges that a user has unlocked.
+     */
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class);
+    }
+
+    /**
+     * User's current badge
+     */
+    public function currentBadge()
+    {
+        return $this->belongsToMany(Badge::class)->wherePivot('current', true);
     }
 }
 
