@@ -16,9 +16,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $user = User::factory()->create();
+   app('achievements');
+    $user = User::with('achievements')->find(1);
+    $comment = \App\Models\Comment::factory()->createOne();
+    $user->comments()->save($comment);
+    $user->lessons()->syncWithPivotValues([1, 2, 3], ['watched' => true]);
+   // $user->achievements()->sync([1, 2, 3]);
 
-    dd(app('achievements'));
+    \App\Events\CommentWritten::dispatch($comment);
+    $user = $user->fresh(['achievements']);
+    //dd($user);
+    //dd($user->achievementIds);
+
+
     return view('welcome');
 });
 

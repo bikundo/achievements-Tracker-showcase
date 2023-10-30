@@ -14,7 +14,7 @@ return new class extends Migration {
         Schema::create('achievement_user', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedInteger('achievement');
+            $table->unsignedInteger('achievement_id');
             $table->timestamps();
         });
     }

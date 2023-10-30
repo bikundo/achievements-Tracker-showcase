@@ -54,6 +54,12 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    //get the achievement ids
+    public function getAchievementIdsAttribute()
+    {
+        return $this->achievements->pluck('id');
+    }
+
     /**
      * The lessons that a user has access to.
      */

@@ -25,12 +25,17 @@ abstract class AchievementType
         return $this->model->getKey();
     }
 
-    public function checker($user)
+    public function checker($user, $type)
     : bool {
+        if ($type !== $this->type) {
+            return false;
+        }
         if ($this->type === 'lessons') {
             return $user->watched->count() >= $this->threshold;
+        } elseif ($this->type === 'comments') {
+            return $user->comments->count() >= $this->threshold;
         }
 
-        return $user->comments->count() >= $this->threshold;
+        return false;
     }
 }
