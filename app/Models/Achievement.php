@@ -17,6 +17,7 @@ class Achievement extends Model
     protected $fillable
         = [
             'name',
+            'threshold',
             'description',
         ];
 

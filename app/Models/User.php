@@ -75,7 +75,7 @@ class User extends Authenticatable
      */
     public function achievements()
     {
-        return $this->belongsToMany(Achievement::class);
+        return $this->belongsToMany(Achievement::class)->withTimestamps();
     }
 
     /**
@@ -83,7 +83,7 @@ class User extends Authenticatable
      */
     public function badges()
     {
-        return $this->belongsToMany(Badge::class);
+        return $this->belongsToMany(Badge::class)->withTimestamps();
     }
 
     /**
@@ -91,7 +91,11 @@ class User extends Authenticatable
      */
     public function currentBadge()
     {
-        return $this->belongsToMany(Badge::class)->wherePivot('current', true);
+        return $this->belongsToMany(Badge::class)
+            ->withPivot('current')
+            ->wherePivot('current', true)
+            ->withTimestamps()
+            ->first();
     }
 }
 

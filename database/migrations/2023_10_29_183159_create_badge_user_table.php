@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedInteger('badge_id');
-            $table->boolean('current')->default('false');
+            $table->boolean('current')->default(false);
             $table->timestamps();
         });
     }
