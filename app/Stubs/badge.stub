@@ -1,0 +1,11 @@
+<?php
+
+namespace App\Achievements;
+
+class {{CLASS_NAME}}
+{
+    public string $name = '{{NAME}}';
+    public string $description = 'description goes here';
+    public int $threshold = {{THRESHOLD}};
+    public string $type = '{{TYPE}}';
+}
