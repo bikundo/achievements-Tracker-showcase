@@ -10,6 +10,8 @@ abstract class AchievementType
     public $model;
     public int $threshold = 1;
     public string $type;
+    public string $name;
+    public string $description;
 
     public function __construct()
     {

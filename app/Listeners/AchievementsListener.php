@@ -6,13 +6,14 @@ use App\Events\AchievementUnlocked;
 use App\Events\CommentWritten;
 use App\Events\LessonWatched;
 use App\Models\Achievement;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class ProcessUnlockEvent
+class AchievementsListener
 {
-    private $user;
-    private $type;
+    private User $user;
+    private string $type;
 
     /**
      * Create the event listener.
@@ -29,14 +30,10 @@ class ProcessUnlockEvent
     : void {
         //Go through all achievements and check if the user meets the threshold and return their ids
         $this->user = $this->getEventUserModel($event);
-        $allUnlockedAchievements = app('achievements')->filter(function ($achievement) use ($event) {
-            return $achievement->checker($this->user, $this->type);
-        })->map(function ($achievement) {
-            return $achievement->modelId();
-        });
+        $allUnlockedAchievements = $this->getUnlockedAchievements($event);
         $currentAchievementIds = $this->user->achievementIds;
         $newAchievements = $allUnlockedAchievements->diff($currentAchievementIds);
-        //dd($newAchievements);
+
         if ($newAchievements->count()) {
             $this->user->achievements()->syncWithoutDetaching($newAchievements->all());
             foreach ($newAchievements as $newAchievement) {
@@ -59,5 +56,19 @@ class ProcessUnlockEvent
         $this->type = 'lessons';
 
         return $event->user;
+    }
+
+    /**
+     * @param  LessonWatched|CommentWritten  $event
+     *
+     * @return mixed
+     */
+    private function getUnlockedAchievements(LessonWatched|CommentWritten $event)
+    : mixed {
+        return app('achievements')->filter(function ($achievement) use ($event) {
+            return $achievement->checker($this->user, $this->type);
+        })->map(function ($achievement) {
+            return $achievement->modelId();
+        });
     }
 }

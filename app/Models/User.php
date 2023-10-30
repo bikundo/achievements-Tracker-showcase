@@ -54,10 +54,15 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-    //get the achievement ids
+    //get the unlocked achievement ids
     public function getAchievementIdsAttribute()
     {
         return $this->achievements->pluck('id');
+    }
+    //get the unlocked badge ids
+    public function getBadgeIdsAttribute()
+    {
+        return $this->badges->pluck('id');
     }
 
     /**
