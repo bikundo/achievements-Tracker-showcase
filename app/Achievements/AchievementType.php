@@ -9,6 +9,7 @@ abstract class AchievementType
 
     public $model;
     public int $threshold = 1;
+    public string $type;
 
     public function __construct()
     {
@@ -26,6 +27,10 @@ abstract class AchievementType
 
     public function checker($user)
     : bool {
-        return $user->watched->count() >= $this->threshold;
+        if ($this->type === 'lessons') {
+            return $user->watched->count() >= $this->threshold;
+        }
+
+        return $user->comments->count() >= $this->threshold;
     }
 }
