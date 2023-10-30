@@ -59,6 +59,7 @@ class User extends Authenticatable
     {
         return $this->achievements->pluck('id');
     }
+
     //get the unlocked badge ids
     public function getBadgeIdsAttribute()
     {
@@ -107,6 +108,26 @@ class User extends Authenticatable
             ->wherePivot('current', true)
             ->withTimestamps()
             ->first();
+    }
+
+    public function getRemainingBadgeCountAttribute()
+    {
+        return Badge::whereNotIn('id', $this->badgeIds)->count();
+    }
+
+    public function getNextAvailableAchievementsAttribute()
+    {
+        return Achievement::OrderBy('threshold', 'asc')
+            ->whereNotIn('id', $this->achievementIds)
+            ->pluck('name')
+            ->all();
+    }
+
+    public function getNextBadgeAttribute()
+    {
+        return Badge::whereNotIn('id', $this->badgeIds)
+            ->orderBy('threshold', 'asc')->first()
+            ?->name;
     }
 }
 
