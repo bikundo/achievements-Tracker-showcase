@@ -18,6 +18,7 @@ abstract class AchievementType
         $this->model = Achievement::firstOrCreate([
             'name'        => $this->name,
             'threshold'   => $this->threshold,
+            'type'       => $this->type,
             'description' => $this->description,
         ]);
     }

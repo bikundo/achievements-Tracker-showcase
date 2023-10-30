@@ -18,6 +18,7 @@ class Achievement extends Model
         = [
             'name',
             'threshold',
+            'type',
             'description',
         ];
 
