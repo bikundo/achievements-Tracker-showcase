@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
    //dd(app('achievements'));
-    $user = User::find(14);
+    $user = User::factory()->createOne();
     $comment = \App\Models\Comment::factory()->createOne();
     $user->comments()->save($comment);
-    $user->lessons()->syncWithPivotValues([1, 2, 3], ['watched' => true]);
+    //$user->lessons()->syncWithPivotValues([1, 2, 3], ['watched' => true]);
    // $user->achievements()->sync([1, 2, 3]);
 
     \App\Events\CommentWritten::dispatch($comment);

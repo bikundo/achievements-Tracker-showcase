@@ -119,6 +119,9 @@ class User extends Authenticatable
     {
         return Achievement::OrderBy('threshold', 'asc')
             ->whereNotIn('id', $this->achievementIds)
+            ->groupBy('type')
+            ->havingRaw('MIN(threshold)')
+            ->get()
             ->pluck('name')
             ->all();
     }
