@@ -37,7 +37,7 @@ class AchievementServiceProvider extends ServiceProvider
     /**
      * Register services.
      */
-    public function register()
+    public function boot()
     : void
     {
         $this->app->singleton('achievements', function () {
