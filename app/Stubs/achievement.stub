@@ -2,7 +2,7 @@
 
 namespace App\Achievements;
 
-class {{CLASS_NAME}}
+class {{CLASS_NAME}} extends AchievementType
 {
     public string $name = '{{NAME}}';
     public string $description = 'description goes here';
