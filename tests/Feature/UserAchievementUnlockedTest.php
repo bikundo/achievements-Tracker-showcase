@@ -32,17 +32,18 @@ class UserAchievementUnlockedTest extends TestCase
 
     }
 
-    public function test_that_user_unlocks_first_badge_after_unlocking_first_achievement()
+
+    public function test_that_user_unlocks_second_comment_achievement_after_meeting_threshold()
     {
         $user = User::factory()->create();
         $comment = Comment::factory()->create();
         $user->comments()->save($comment);
         CommentWritten::dispatch($comment);
 
-        $response = $this->getJson("/users/{$user->id}/achievements");
-        $response->assertJson([
-            'current_badge' => 'Beginner',
-        ]);
-
+        $this->assertDatabaseCount('achievement_user', 1);
+        $comments = Comment::factory()->createMany(2);
+        $user->comments()->saveMany($comments);
+        CommentWritten::dispatch($comments->last());
+        $this->assertDatabaseCount('achievement_user', 2);
     }
 }

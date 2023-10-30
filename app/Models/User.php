@@ -121,7 +121,6 @@ class User extends Authenticatable
             ->whereNotIn('id', $this->achievementIds)
             ->groupBy('type')
             ->havingRaw('MIN(threshold)')
-            ->get()
             ->pluck('name')
             ->all();
     }
